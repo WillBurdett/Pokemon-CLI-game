@@ -35,7 +35,6 @@ class Health {
             this.numHealthPotions = this.numHealthPotions - 1; 
             return this.numHealthPotions
         } else {
-            console.log(`You've run out of Health Potions`);
             return 0; 
         }
     }

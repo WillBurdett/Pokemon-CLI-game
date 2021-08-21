@@ -10,7 +10,7 @@ let pokemonHealth = new Health();
 
 function catchRate(){
     let num = Math.floor(Math.random()*100);
-    if(num < 50){
+    if(num < 40){
         return true;
     } else {
         return false;
@@ -70,7 +70,8 @@ const question3 = () => {
     return new Promise ((resolve, reject) => {
         rl.question('Do you want to run or attack?\n', (userInput) => {
             if(userInput.toLowerCase().trim() === 'attack'){
-                console.log(`\nGrowlithe used Fire Spin! \n${pokemonHealth.name} fell to ${pokemonHealth.deductingPoints(15)}HP\n${pokemonHealth.name} used Thunderbolt! \nGrowlithe fainted\n`)
+                pokemonHealth.healthPoints = pokemonHealth.deductingPoints(10);
+                console.log(`\nGrowlithe used Fire Spin! \n${pokemonHealth.name} fell to ${pokemonHealth.healthPoints}HP\n${pokemonHealth.name} used Thunderbolt! \nGrowlithe fainted\n`)
                 rl.question(`\nDo you want to use your health potion?\nyes/no\n`, (userInput) => {
                     if(userInput.toLowerCase().trim() == 'yes'){
                         pokemonHealth.healthPoints = pokemonHealth.healthPotions();
@@ -84,8 +85,7 @@ const question3 = () => {
                     }
                 })
             } else if( userInput.toLowerCase().trim() == 'run' ) {
-                console.log(`\nYou caught on fire before getting away! ${pokemonHealth.name}'s health fell to: ${pokemonHealth.deductingPoints(healthPoints)}HP and fainted\n`);
-                resolve()
+                console.log(`\nYou caught on fire before getting away! ${pokemonHealth.name}'s health fell to: ${pokemonHealth.deductingPoints(pokemonHealth.healthPoints)}HP and fainted\n`);
                 rl.close();
             } else {
                 question3();
@@ -142,9 +142,9 @@ const question6 = () => {
         rl.question('\nCresselia appears badly wounded.\nDo you attack or heal?\n', (userInput) => {
             if(userInput.toLowerCase().trim() === 'attack' ){
                 pokemonHealth.healthPoints = pokemonHealth.deductingPoints(20);
-                console.log(`\nCresselia used Struggle but missed!\n${pokemonHealth.name} used Tackle!\nCresselia fainted and ${pokemonHealth.name} took 20HP damage from Recoil.\n${pokemonHealth.name} fell to ${pokemonHealth.healthPoints}`);
+                console.log(`\nCresselia used Struggle but missed!\n${pokemonHealth.name} used Tackle!\nCresselia fainted and ${pokemonHealth.name} took 20HP damage from Recoil.\n${pokemonHealth.name} fell to ${pokemonHealth.healthPoints}\n`);
                 console.log(`\nYou spot a mysterious shadow lurking around the corner.\nCuriousity gets the better of you. You decide to follow it.\n`);
-                rl.question(`...But now you notice ${pokemonHealth.name} is missing, do you investigate?\n yes or no`, (userInput) => {
+                rl.question(`...But now you notice ${pokemonHealth.name} is missing, do you investigate?\n yes or no\n`, (userInput) => {
                     if((userInput.toLowerCase().trim() == 'yes')){
                         console.log(`\nAfter an hour of searching, you find your lifeless ${pokemonHealth.name} floating facedown in an underground pool.\nR.I.P`)
                         rl.close();
@@ -168,26 +168,31 @@ const question6 = () => {
 
 const question7 = () => {
     return new Promise ((resolve, reject) => {
-        rl.question(`While on Cresselia's back, you direct Cresselia to your home.\nOn the way, the 3 of you notice a floating figure in the mountains....\nYou land safely with ${pokemonHealth.name} and thanked Cresselia.\nDo you walk towards the floating figure or go home? figure or home`, (userInput) => {
+        rl.question(`While on Cresselia's back, you direct Cresselia to your home.\nOn the way, the 3 of you notice a floating figure in the mountains....\nYou land safely with ${pokemonHealth.name} and thanked Cresselia.\nDo you walk towards the floating figure or go home?\nfigure or home\n`, (userInput) => {
             if(userInput.toLowerCase().trim() === 'home' ){
                 console.log(`\nYou ignore the floating figure and walked safely home with ${pokemonHealth.name}.\nYou have a lovely warm meal with your family.\n`)
                 console.log(`Ending: Home Sweet Home.`)
                 rl.close();
             } else if ( userInput.toLowerCase().trim() == 'figure' ){
-                rl.question(`As you walk cautiously forward, the figure becomes clearer......\nMEWTWO!\nYou want to catch it but its too strong!\nrun away or attack?`, (userInput) => {
+                rl.question(`\nAs you walk cautiously forward, the figure becomes clearer......\nMEWTWO!\nYou want to catch it but its too strong!\nrun away or attack?\n`, (userInput) => {
                     if(userInput.toLowerCase().trim() == 'run away'){
                         console.log(`Ending: You ran back home and have an amazing story to tell.`)
                         rl.close();
                     } else if (userInput.toLowerCase().trim() == 'attack'){
-                        pokemonHealth.deductingPoints(20)
+                        pokemonHealth.healthPoints = pokemonHealth.deductingPoints(20)
                         console.log(`${pokemonHealth.name} uses Tackle!\nMewTwo uses Beam! ${pokemonHealth.name} fell to ${pokemonHealth.healthPoints}HP! MewTwo looks unfazed...`);
-                        rl.question(`Send ${pokemonHealth.name} to attack again?\nyes/no`, (userInput) => {
+                        rl.question(`Send ${pokemonHealth.name} to attack again?\nyes/no\n`, (userInput) => {
                             if(userInput.toLowerCase().trim() == 'yes'){
-                                rl.question(`${pokemonHealth.name} use Tackle! MewTwo use Beam! ${pokemonHealth.name} fell to ${pokemonHealth.healthPoints} MewTwo appears injured!\nUse health potion on ${pokemonHealth.name}?\nyes/no`, (userInput) => {
+                                pokemonHealth.healthPoints = pokemonHealth.deductingPoints(20);
+                                rl.question(`${pokemonHealth.name} use Tackle! MewTwo use Beam! ${pokemonHealth.name} fell to ${pokemonHealth.healthPoints}HP.\nMewTwo appears injured!\nUse health potion on ${pokemonHealth.name}?\nyes/no\n`, (userInput) => {
                                     if(userInput.toLowerCase().trim() == 'yes'){
-                                        pokemonHealth.healthPoints = pokemonHealth.healthPotions();
                                         pokemonHealth.numHealthPotions = pokemonHealth.minusHealthPotions();
-                                        console.log(`Health potion has been used.\n${pokemonHealth.name} now has ${pokemonHealth.healthPoints}!\n`);
+                                        if(pokemonHealth.numHealthPotions == 0){
+                                            console.log(`Looks like you've run out out of Health Potions.\n${pokemonHealth.name} is still at ${pokemonHealth.healthPoints}HP.\n`)
+                                        } else {
+                                            pokemonHealth.healthPoints = pokemonHealth.healthPotions();
+                                            console.log(`You've used 1 Health Potion, you have ${pokemonHealth.numHealthPotions} Health Potions left.\n${pokemonHealth.name} now has ${pokemonHealth.healthPoints}!\n`)
+                                        }
                                         resolve();
                                     } else if (userInput.toLowerCase().trim() == 'no'){
                                         console.log(`${pokemonHealth.name} is still at ${pokemonHealth.healthPoints}HP\n`);
