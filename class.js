@@ -51,7 +51,6 @@ class Health {
             return false;
         }
     }
-    
 }
 
 module.exports = Health;

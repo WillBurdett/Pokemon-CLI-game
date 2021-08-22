@@ -55,7 +55,7 @@ async function main2(){
                 pokemonHealth.maxHealth = 100; 
                 pokemonHealth.healthPoints = pokemonHealth.maxHealth;
                 pokemonHealth.numHealthPotions = 5; 
-                pokemonHealth.probability = 60; 
+                pokemonHealth.probability = 50; 
                 main3();
             } else if (answer == 'Intermediate'){
                 pokemonHealth.maxHealth = 70; 
@@ -126,7 +126,7 @@ async function main6(){
                 console.log(`\nYou have used 1 health potion. You currently have ${pokemonHealth.minusHealthPotions()} health potion left.\n${pokemonHealth.name} is now recovered to ${pokemonHealth.healthPoints}HP!\n`);
                 main7();
             } else {
-                console.log(`\nYou chose not to use any health potion.\n ${pokemonHealth.name} is still at ${pokemonHealth.healthPoints}HP\n`);
+                console.log(`\nYou chose not to use any health potion.\n${pokemonHealth.name} is still at ${pokemonHealth.healthPoints}HP\n`);
                 main7();
             }
         })
@@ -268,12 +268,12 @@ async function main10c(){
         .then(userInput => {
             const answer = userInput.list10c;
             if(answer == `Potion`){
-                pokemonHealth.numHealthPotions = pokemonHealth.minusHealthPotions();
                 if(pokemonHealth.numHealthPotions == 0){
                     console.log(`\nLooks like you've run out out of Health Potions.\n${pokemonHealth.name} is still at ${pokemonHealth.healthPoints}HP.\n`);
                     checkHP();
                     main11();
                 } else {
+                    pokemonHealth.numHealthPotions = pokemonHealth.minusHealthPotions();
                     pokemonHealth.healthPoints = pokemonHealth.healthPotions();
                     console.log(`\nYou've used 1 Health Potion, you have ${pokemonHealth.numHealthPotions} Health Potions left.\n${pokemonHealth.name} now has ${pokemonHealth.healthPoints}HP!\n`)
                     main11();
@@ -294,24 +294,24 @@ async function main11(){
                 console.log(`\nEnding: MewTwo loses his patience and uses PsyStrike.\nYou both disintergrate.\n`);
                 endGame();
             } else if(answer == 'Potion'){
-                pokemonHealth.numHealthPotions = pokemonHealth.minusHealthPotions();
                 if(pokemonHealth.numHealthPotions == 0){
                     console.log(`\nLooks like you've run out out of Health Potions.\n${pokemonHealth.name} is still at ${pokemonHealth.healthPoints}HP.\n`);
                     checkHP();
                     main12();
                 } else {
+                    pokemonHealth.numHealthPotions = pokemonHealth.minusHealthPotions();
                     pokemonHealth.healthPoints = pokemonHealth.healthPotions();
                     console.log(`\nYou've used 1 Health Potion, you have ${pokemonHealth.numHealthPotions} Health Potions left.\n${pokemonHealth.name} now has ${pokemonHealth.healthPoints}!\n`)
                     main12();
                 }
             } else {
-                let probability = pokemonHealth.catchRate();
-                if(probability == true){
+                let chance = pokemonHealth.catchRate();
+                if(chance == true){
                     console.log(`\nCONGRATULATIONS: YOU CAUGHT MEWTWO\nMewTwo was added to your Pokedex.\n`);
                     completed();
                 } else {
                     pokemonHealth.healthPoints = pokemonHealth.deductingPoints(10);
-                    console.log(`\nMewTwo busted out! MewTwo use Psycocut! ${pokemonHealth.name} fell to ${pokemonHealth.healthPoints}\n`);
+                    console.log(`\nMewTwo busted out! MewTwo use Psycocut! ${pokemonHealth.name} fell to ${pokemonHealth.healthPoints}HP\n`);
                     checkHP();
                     main12();
                 } 
@@ -325,20 +325,19 @@ async function main12(){
         .then(userInput => {
             const answer = userInput.list12;
             if(answer == 'Potion'){
-                pokemonHealth.healthPoints = pokemonHealth.healthPotions();
-                pokemonHealth.numHealthPotions = pokemonHealth.minusHealthPotions();
                 if(pokemonHealth.numHealthPotions == 0){
                     console.log(`\nLooks like you've run out out of Health Potions.\n${pokemonHealth.name} is still at ${pokemonHealth.healthPoints}HP.\n`);
                     checkHP();
                     main12();
                 } else {
+                    pokemonHealth.numHealthPotions = pokemonHealth.minusHealthPotions();
                     pokemonHealth.healthPoints = pokemonHealth.healthPotions();
                     console.log(`\nYou've used 1 Health Potion, you have ${pokemonHealth.numHealthPotions} Health Potions left.\n${pokemonHealth.name} now has ${pokemonHealth.healthPoints}HP!\n`)
                     main12();
                 }
             } else {
-                let probability = pokemonHealth.catchRate();
-                if(probability == true){
+                let chance = pokemonHealth.catchRate();
+                if(chance == true){
                     console.log(`\nCONGRATULATIONS: YOU CAUGHT MEWTWO\n MewTwo was added to your Pokedex.\n`);
                     completed();
                 } else {
@@ -350,7 +349,7 @@ async function main12(){
                     console.log(`\nMewTwo busted out! MewTwo use Psycocut! ${pokemonHealth.name} fell to ${pokemonHealth.healthPoints}HP\n`);
                     main12();
                     }
-                } 
+                }
             }
         })
 };
