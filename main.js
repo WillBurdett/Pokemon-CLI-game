@@ -24,21 +24,13 @@ const {
 let pokemonHealth = new Health();
 
 
-function checkHP(){
-    if(pokemonHealth.healthPoints <= 0){
-        zeroHealth();
-    } else {
-        return;
-    }
-}
-
 async function main1(){
     await inquirer
         .prompt(question1)
         .then(userInput => {
             const answer = userInput.list1
             if(answer == 'Yes'){
-               console.log(`\nYou are enter the cave.....\n`)
+               console.log(`\nYou are entering the cave.....\n`)
                main2();
             } else {
                 endGame1();
@@ -250,7 +242,7 @@ async function main10b(){
             if(answer == 'Yes'){
                 pokemonHealth.healthPoints = pokemonHealth.deductingPoints(20);
                 if(pokemonHealth.healthPoints == 0){
-                    checkHP();
+                   checkHP();
                 } else {
                 console.log(`\n${pokemonHealth.name} uses Tackle! MewTwo uses Psybeam! ${pokemonHealth.name} fell to ${pokemonHealth.healthPoints}HP.\nMewTwo appears injured!\n`)
                 main10c();
@@ -291,8 +283,13 @@ async function main11(){
         .then(userInput => {
             const answer = userInput.list11;
             if(answer == 'Attack'){
-                console.log(`\nEnding: MewTwo loses his patience and uses PsyStrike.\nYou both disintergrate.\n`);
-                endGame();
+                pokemonHealth.healthPoints = pokemonHealth.deductingPoints(20);
+                if(pokemonHealth.healthPoints == 0){
+                   checkHP();
+                } else {
+                console.log(`\n${pokemonHealth.name} uses Tackle! MewTwo uses Psybeam! ${pokemonHealth.name} fell to ${pokemonHealth.healthPoints}HP.\nMewTwo appears injured!\n`)
+                main12();
+                }
             } else if(answer == 'Potion'){
                 if(pokemonHealth.numHealthPotions == 0){
                     console.log(`\nLooks like you've run out out of Health Potions.\n${pokemonHealth.name} is still at ${pokemonHealth.healthPoints}HP.\n`);
@@ -338,7 +335,7 @@ async function main12(){
             } else {
                 let chance = pokemonHealth.catchRate();
                 if(chance == true){
-                    console.log(`\nCONGRATULATIONS: YOU CAUGHT MEWTWO\n MewTwo was added to your Pokedex.\n`);
+                    console.log(`\nCONGRATULATIONS: YOU CAUGHT MEWTWO\nMewTwo was added to your Pokedex.\n`);
                     completed();
                 } else {
                     pokemonHealth.deductingPoints(10);
@@ -362,14 +359,21 @@ function endGame(){
     main1();
 }
 
-function zeroHealth(){
-    console.log(`You've run out of health..\nGame Over\n`);
-    main1();
-}
-
 function completed(){
     console.log(`Congratulations!\n`);
     main1();
+}
+
+function checkHP(){
+    function zeroHealth(){
+        console.log(`You've run out of health..\nGame Over\n`);
+        main1();
+    }
+    if(pokemonHealth.healthPoints <= 0){
+        zeroHealth();
+    } else {
+        return;
+    }
 }
 
 main1();

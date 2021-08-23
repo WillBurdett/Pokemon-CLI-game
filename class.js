@@ -3,7 +3,7 @@ class Health {
         this.maxHealth;
         this.healthPoints;
         this.name;
-        this.numHealthPotions = 2;
+        this.numHealthPotions;
         this.probability;
     }
     deductingPoints(damage){
@@ -51,6 +51,7 @@ class Health {
             return false;
         }
     }
+    
 }
 
 module.exports = Health;
